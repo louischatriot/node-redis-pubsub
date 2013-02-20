@@ -1,14 +1,14 @@
 var should = require('chai').should()
-  , rqConfig = { port: 6379, scope: 'onescope' }
-  , rqConfig2 = { port: 6379, scope: 'anotherscope' }
-  , RedisQueue = require('../lib/node-redis-pubsub')
+  , conf = { port: 6379, scope: 'onescope' }
+  , conf2 = { port: 6379, scope: 'anotherscope' }
+  , NodeRedisPubsub = require('../index')
   ;
 
 
-describe('Redis Queue', function () {
+describe('Node Redis Pubsub', function () {
 
   it('Should send and receive standard messages correctly', function (done) {
-    var rq = new RedisQueue(rqConfig);
+    var rq = new NodeRedisPubsub(conf);
 
     rq.on('un test', function (data) {
       data.first.should.equal('First message');
@@ -22,7 +22,7 @@ describe('Redis Queue', function () {
   });
 
   it('Should receive pattern messages correctly', function (done) {
-    var rq = new RedisQueue(rqConfig);
+    var rq = new NodeRedisPubsub(conf);
 
     rq.on('test:*', function (data) {
       data.first.should.equal('First message');
@@ -36,8 +36,8 @@ describe('Redis Queue', function () {
   });
 
   it('Should only receive messages for his own scope', function (done) {
-    var rq = new RedisQueue(rqConfig)
-      , rq2 = new RedisQueue(rqConfig2)
+    var rq = new NodeRedisPubsub(conf)
+      , rq2 = new NodeRedisPubsub(conf2)
       ;
 
     rq.on('thesame', function (data) {
