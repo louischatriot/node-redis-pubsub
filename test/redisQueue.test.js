@@ -10,13 +10,13 @@ describe('Node Redis Pubsub', function () {
   it('Should send and receive standard messages correctly', function (done) {
     var rq = new NodeRedisPubsub(conf);
 
-    rq.on('un test', function (data) {
+    rq.on('a test', function (data) {
       data.first.should.equal('First message');
       data.second.should.equal('Second message');
       done();
     }
     , function () {
-        rq.emit('un test', { first: 'First message'
+        rq.emit('a test', { first: 'First message'
                             , second: 'Second message' });
       });
   });
