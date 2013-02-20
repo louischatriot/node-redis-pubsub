@@ -6,7 +6,42 @@ your Node application needs to share data with other applications. In that case 
 help you, you need an external pubsub provider. Redis is pretty good at this, but its pubsub API
 is strange. So you use this wrapper.
 
+## Install and test
+```bash
+$ npm install node-redis-pubsub      # Install locally
+$ npm install -g node-redis-pubsub   # Install globally
+$ 
+$ make test   # test (devDependencies need to be installed and a Redis server up)
+```
 
+## Usage
+For now this only works in a trusted environment where Redis runs unprotected on a port blocked by firewall.
+That's the case with most production setups.
+
+```javascript
+var NRP = require('')
+  , config = { port: 6379       // Port of your locally running Redis server
+             , scope: 'demo'    // Use a scope to prevent two NRPs from sharing messages
+             }
+  , nrp = new NRP(config);      // This is the NRP client
+
+
+// Simple pubsub
+nrp.on('say hello', function (data) {
+  console.log('Hello ' + data.name);
+});
+
+nrp.emit('say hello', { name: 'Louis' });   // Outputs 'Hello Louis'
+
+
+// You can use patterns to capture all messages of a certain type
+nrp.on('city:*', function (data) {
+  console.log(data.city + ' is great');
+});
+
+nrp.emit('city:hello', { city: 'Paris' });   // Outputs 'Paris is great'
+nrp.emit('city:yeah', { city: 'San Francisco' });   // Outputs 'San Francisco is great'
+```
 
 
 ## License 
