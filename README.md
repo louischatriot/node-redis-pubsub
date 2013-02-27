@@ -19,7 +19,7 @@ For now this only works in a trusted environment where Redis runs unprotected on
 That's the case with most production setups.
 
 ```javascript
-var NRP = require('')
+var NRP = require('node-redis-pubsub')
   , config = { port: 6379       // Port of your locally running Redis server
              , scope: 'demo'    // Use a scope to prevent two NRPs from sharing messages
              }
