@@ -22,6 +22,8 @@ That's the case with most production setups.
 var NRP = require('node-redis-pubsub')
   , config = { port: 6379       // Port of your locally running Redis server
              , scope: 'demo'    // Use a scope to prevent two NRPs from sharing messages
+             , host: '10.0.0.1' // Specifiy the redis server host, defaults to 127.0.0.1
+             , extraParameters: {} // Any extra parameters that may be passed to the redis.createClient() method.
              }
   , nrp = new NRP(config);      // This is the NRP client
 
