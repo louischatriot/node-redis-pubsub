@@ -18,6 +18,9 @@ $ make test   # test (devDependencies need to be installed and a Redis server up
 For now this only works in a trusted environment where Redis runs unprotected on a port blocked by firewall.
 That's the case with most production setups.
 
+### Setup
+for a locally running Redis server
+
 ```javascript
 var NRP = require('node-redis-pubsub')
   , config = { port: 6379       // Port of your locally running Redis server
@@ -25,9 +28,23 @@ var NRP = require('node-redis-pubsub')
              , host: '10.0.0.1' // Specifiy the redis server host, defaults to 127.0.0.1
              }
   , nrp = new NRP(config);      // This is the NRP client
+```
 
+for a remote Redis server
 
-// Simple pubsub
+```javascript
+var NRP = require('node-redis-pubsub')
+  , config = { port: 1234       // Port of your remote Redis server
+             , host: 'path.to.reremote.redis.host'
+             , auth: 'password' // Password 
+             , scope: 'demo'    // Use a scope to prevent two NRPs from sharing messages
+             }
+  , nrp = new NRP(config);      // This is the NRP client
+```
+
+### Simple pubsub
+
+```javascript
 nrp.on('say hello', function (data) {
   console.log('Hello ' + data.name);
 });
