@@ -1,9 +1,9 @@
 { "name": "node-redis-pubsub"
-, "version": "0.1.1"
+, "version": "0.2.0"
 , "author": { "name": "Louis Chatriot"
             , "email": "louis.chatriot@gmail.com"
             }
-, "contributors": [ "Louis Chatriot" ]
+, "contributors": [ "Louis Chatriot", "omarmohamed", "Martin Saint-Macary" ]
 , "description": "Redis PubSub client for Node"
 , "keywords": ["redis", "pubsub", "node", "simple"]
 , "homepage": "https://github.com/louischatriot/node-redis-pubsub"
