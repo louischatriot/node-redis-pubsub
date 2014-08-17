@@ -1,6 +1,8 @@
 NRP (Node Redis Pubsub)
 =================
 
+**IMPORTANT: this library is not maintained anymore, please don't submit anymore pull requests except for bugfixes**
+
 Simple pubsub for node using Redis. Why use NRP instead of Node's EventEmitter? It is useful when
 your Node application needs to share data with other applications. In that case EventEmitter will not
 help you, you need an external pubsub provider. Redis is pretty good at this, but its pubsub API
