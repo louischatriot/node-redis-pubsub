@@ -56,6 +56,59 @@ describe('Node Redis Pubsub', function () {
       });
   });
 
+  it('Should not receive messages after unsubscribing', function (done) {
+    var rq = new NodeRedisPubsub(conf);
+
+    var testFunc = function (data) {
+      data.first.should.equal('First message');
+      data.second.should.equal('Second message');
+    };
+
+    rq.on('unsubtest', testFunc, function () {
+        rq.emit('unsubtest', { first: 'First message'
+                            , second: 'Second message' });
+
+        rq.off('unsubtest', testFunc, function() {
+          rq.emit('unsubtest', { first: 'Wrong'
+                            , second: 'Also wrong' });
+          done();
+        });
+      });
+  });
+
+  it('Should receive other messages on the same channel after unsubscribing a specific function', function (done) {
+    var rq = new NodeRedisPubsub(conf);
+
+    var testFunc = function (data) {
+      data.first.should.equal('First message');
+      data.second.should.equal('Second message');
+    };
+
+    var testFunc2 = function(data) {
+      data.first.should.equal('First message');
+      data.second.should.equal('Second message');
+    };
+
+    rq.on('sub1', testFunc, function() {
+      rq.on('sub1', testFunc2, function () {
+          rq.emit('sub1', { first: 'First message'
+                              , second: 'Second message' });
+
+          rq.emit('sub1', { first: 'First message'
+                              , second: 'Second message' });
+
+          rq.off('sub1', testFunc, function() {
+            rq.emit('sub1', { first: 'Wrong'
+                              , second: 'Also wrong' });
+
+            rq.emit('sub1', { first: 'First message'
+                                , second: 'Second message' });
+            done();
+          });
+        });
+    });
+  });
+
 });
 
 
