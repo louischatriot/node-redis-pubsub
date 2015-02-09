@@ -12,7 +12,7 @@ is strange. So you use this wrapper.
 ```bash
 $ npm install node-redis-pubsub      # Install locally
 $ npm install -g node-redis-pubsub   # Install globally
-$ 
+$
 $ make test   # test (devDependencies need to be installed and a Redis server up)
 ```
 
@@ -34,7 +34,7 @@ for a remote Redis server
 var NRP = require('node-redis-pubsub')
   , config = { port: 1234       // Port of your remote Redis server
              , host: 'path.to.reremote.redis.host' // Redis server host, defaults to 127.0.0.1
-             , auth: 'password' // Password 
+             , auth: 'password' // Password
              , scope: 'demo'    // Use a scope to prevent two NRPs from sharing messages
              }
   , nrp = new NRP(config);      // This is the NRP client
@@ -59,8 +59,17 @@ nrp.emit('city:hello', { city: 'Paris' });   // Outputs 'Paris is great'
 nrp.emit('city:yeah', { city: 'San Francisco' });   // Outputs 'San Francisco is great'
 ```
 
+### Unsubscrbe
 
-## License 
+```javascript
+nrp.on('say hello', function (data) {
+  // Never called
+});
+
+nrp.off('say hello', [Callback]);
+```
+
+## License
 
 (The MIT License)
 

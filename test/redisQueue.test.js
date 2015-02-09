@@ -56,6 +56,25 @@ describe('Node Redis Pubsub', function () {
       });
   });
 
+  it('Should have the avility to unsubscribe', function (done) {
+    var rq     = new NodeRedisPubsub();
+    var called = false;
+
+    rq.should.have.property('off');
+    rq.on('a test', function (data){
+      called = true;
+    }, function(){
+      rq.off('a test');
+      rq.emit('a test', { });
+    });
+
+    setTimeout(function(){
+      called.should.be.false;
+      done();
+    }, 10);
+
+  });
+
 });
 
 
