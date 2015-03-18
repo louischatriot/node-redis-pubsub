@@ -51,7 +51,8 @@ nrp.emit('say hello', { name: 'Louis' });   // Outputs 'Hello Louis'
 
 
 // You can use patterns to capture all messages of a certain type
-nrp.on('city:*', function (data) {
+// The matched channel is given as a second parameter to the callback
+nrp.on('city:*', function (data, channel) {
   console.log(data.city + ' is great');
 });
 
