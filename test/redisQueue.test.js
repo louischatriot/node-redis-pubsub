@@ -10,9 +10,10 @@ describe('Node Redis Pubsub', function () {
   it('Should send and receive standard messages correctly', function (done) {
     var rq = new NodeRedisPubsub(conf);
 
-    rq.on('a test', function (data) {
+    rq.on('a test', function (data, channel) {
       data.first.should.equal('First message');
       data.second.should.equal('Second message');
+      channel.should.equal("a test");
       done();
     }
     , function () {
@@ -24,9 +25,10 @@ describe('Node Redis Pubsub', function () {
   it('Should receive pattern messages correctly', function (done) {
     var rq = new NodeRedisPubsub(conf);
 
-    rq.on('test:*', function (data) {
+    rq.on('test:*', function (data, channel) {
       data.first.should.equal('First message');
       data.second.should.equal('Second message');
+      channel.should.equal("test:created");
       done();
     }
     , function () {
