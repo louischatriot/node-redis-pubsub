@@ -11,14 +11,18 @@
                   }
 , "devDependencies": { "mocha": "*"
                      , "should": "*"
+                     , "sinon": "^1.14.1"
+                     , "sinon-chai": "^2.7.0"
                      }
 , "repository": { "type": "git"
                 , "url": "git://github.com/louischatriot/node-redis-pubsub"
                 }
 , "engines": {
     "node": "*"
-  }
-, "main": "index"
-, "scripts": { "test": "make test" }
-, "licence": "mit"
+  },
+  "main": "index",
+  "scripts": {
+    "test": "make test"
+  },
+  "licence": "mit"
 }
