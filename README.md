@@ -70,6 +70,16 @@ nrp.on('say hello', function (data) {
 nrp.off('say hello', [Callback]);
 ```
 
+### Shut down connections
+
+```javascript
+// Safely (connections will be closed properly once all commands are sent)
+nrp.quit();
+
+// Dangerously (connections will be immediately terminated)
+nrp.end();
+```
+
 ## License
 
 (The MIT License)

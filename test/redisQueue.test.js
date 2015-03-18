@@ -1,9 +1,13 @@
-var should = require('chai').should()
+var chai = require('chai')
   , conf = { port: 6379, scope: 'onescope' }
   , conf2 = { port: 6379, scope: 'anotherscope' }
   , NodeRedisPubsub = require('../index')
+  , sinon = require("sinon")
+  , sinonChai = require("sinon-chai")
   ;
 
+chai.should();
+chai.use(sinonChai)
 
 describe('Node Redis Pubsub', function () {
 
@@ -13,7 +17,7 @@ describe('Node Redis Pubsub', function () {
     rq.on('a test', function (data, channel) {
       data.first.should.equal('First message');
       data.second.should.equal('Second message');
-      channel.should.equal("a test");
+      channel.should.equal("onescope:a test");
       done();
     }
     , function () {
@@ -28,7 +32,7 @@ describe('Node Redis Pubsub', function () {
     rq.on('test:*', function (data, channel) {
       data.first.should.equal('First message');
       data.second.should.equal('Second message');
-      channel.should.equal("test:created");
+      channel.should.equal("onescope:test:created");
       done();
     }
     , function () {
@@ -74,6 +78,34 @@ describe('Node Redis Pubsub', function () {
       called.should.be.false;
       done();
     }, 10);
+
+  });
+
+  describe("When shutting down connections", function () {
+    var sandbox, rq;
+    beforeEach(function () {
+      rq = new NodeRedisPubsub();
+      sandbox = sinon.sandbox.create();
+      sandbox.stub(rq.emitter, "quit");
+      sandbox.stub(rq.receiver, "quit");
+      sandbox.stub(rq.emitter, "end");
+      sandbox.stub(rq.receiver, "end");
+    });
+    afterEach(function () {
+      sandbox.restore();
+    });
+
+    it('Should safely shut down the connections', function () {
+      rq.quit();
+      rq.emitter.quit.should.have.been.calledOnce;
+      rq.receiver.quit.should.have.been.calledOnce;
+    });
+
+    it('Should dangerously shut down the connections', function () {
+      rq.end();
+      rq.emitter.end.should.have.been.calledOnce;
+      rq.receiver.end.should.have.been.calledOnce;
+    });
 
   });
 
