@@ -1,3 +1,1 @@
-var NodeRedisPubSub = require('./lib/node-redis-pubsub');
-
-module.exports = NodeRedisPubSub;
+module.exports = require('./lib/node-redis-pubsub');
