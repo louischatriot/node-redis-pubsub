@@ -1,7 +1,7 @@
 {
 
   "name"    : "node-redis-pubsub" ,
-  "version" : "0.6.0"             ,
+  "version" : "0.7.0"             ,
 
   "author" : {
     "name"  : "Louis Chatriot"          ,
@@ -43,7 +43,7 @@
   },
 
   "engines": {
-    "node": "5.5.0"
+    "node": "*"
   },
 
   "main" : "index",
