@@ -21,49 +21,53 @@ $ make test   # test (devDependencies need to be installed and a Redis server up
 for a trusted environment where Redis runs locally, unprotected on a port blocked by firewall.
 
 ```javascript
-var NRP = require('node-redis-pubsub')
-  , config = { port: 6379       // Port of your locally running Redis server
-             , scope: 'demo'    // Use a scope to prevent two NRPs from sharing messages
-             }
-  , nrp = new NRP(config);      // This is the NRP client
+var NRP    = require('node-redis-pubsub');
+var config = {
+  port  : 6379  , // Port of your locally running Redis server
+  scope : 'demo'  // Use a scope to prevent two NRPs from sharing messages
+};
+
+var nrp = new NRP(config); // This is the NRP client
 ```
 
 for a remote Redis server
 
 ```javascript
-var NRP = require('node-redis-pubsub')
-  , config = { port: 1234       // Port of your remote Redis server
-             , host: 'path.to.reremote.redis.host' // Redis server host, defaults to 127.0.0.1
-             , auth: 'password' // Password
-             , scope: 'demo'    // Use a scope to prevent two NRPs from sharing messages
-             }
-  , nrp = new NRP(config);      // This is the NRP client
+var NRP = require('node-redis-pubsub');
+
+var config = {
+  port: 1234                        , // Port of your remote Redis server
+  host: 'path.to.remote.redis.host' , // Redis server host, defaults to 127.0.0.1
+  auth: 'password'                  , // Password
+  scope: 'demo'                       // Use a scope to prevent two NRPs from sharing messages
+};
+
+var nrp = new NRP(config); // This is the NRP client
 ```
 
 ### Simple pubsub
 
 ```javascript
-nrp.on('say hello', function (data) {
+nrp.on('say hello', function(data){
   console.log('Hello ' + data.name);
 });
 
 nrp.emit('say hello', { name: 'Louis' });   // Outputs 'Hello Louis'
 
-
 // You can use patterns to capture all messages of a certain type
 // The matched channel is given as a second parameter to the callback
-nrp.on('city:*', function (data, channel) {
+nrp.on('city:*', (data, channel) => {
   console.log(data.city + ' is great');
 });
 
-nrp.emit('city:hello', { city: 'Paris' });   // Outputs 'Paris is great'
-nrp.emit('city:yeah', { city: 'San Francisco' });   // Outputs 'San Francisco is great'
+nrp.emit('city:hello' , { city: 'Paris' });         // Outputs 'Paris is great'
+nrp.emit('city:yeah'  , { city: 'San Francisco' }); // Outputs 'San Francisco is great'
 ```
 
 ### Unsubscrbe
 
 ```javascript
-nrp.on('say hello', function (data) {
+nrp.on('say hello', function(data){
   // Never called
 });
 
