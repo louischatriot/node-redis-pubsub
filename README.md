@@ -64,7 +64,7 @@ nrp.emit('city:hello' , { city: 'Paris' });         // Outputs 'Paris is great'
 nrp.emit('city:yeah'  , { city: 'San Francisco' }); // Outputs 'San Francisco is great'
 ```
 
-### Unsubscrbe
+### Unsubscribe
 
 ```javascript
 nrp.on('say hello', function(data){
