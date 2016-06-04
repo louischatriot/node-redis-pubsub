@@ -84,6 +84,14 @@ nrp.quit();
 nrp.end();
 ```
 
+### Listen for errors
+
+```javascript
+nrp.on("error", function(){
+  // Handle errors here
+});
+```
+
 ## License
 
 (The MIT License)
