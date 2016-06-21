@@ -1,6 +1,7 @@
 var chai = require('chai')
   , conf = { port: 6379, scope: 'onescope' }
   , conf2 = { port: 6379, scope: 'anotherscope' }
+  , conf3 = { url: 'redis://127.0.0.1:6379/', scope: 'yetanotherscope' }
   , NodeRedisPubsub = require('../index')
   , sinon = require("sinon")
   , sinonChai = require("sinon-chai")
@@ -18,6 +19,21 @@ describe('Node Redis Pubsub', function () {
       data.first.should.equal('First message');
       data.second.should.equal('Second message');
       channel.should.equal("onescope:a test");
+      done();
+    }
+    , function () {
+        rq.emit('a test', { first: 'First message'
+                            , second: 'Second message' });
+      });
+  });
+
+  it('Should send and receive standard messages correctly via url configuration', function (done) {
+    var rq = new NodeRedisPubsub(conf3);
+
+    rq.on('a test', function (data, channel) {
+      data.first.should.equal('First message');
+      data.second.should.equal('Second message');
+      channel.should.equal("yetanotherscope:a test");
       done();
     }
     , function () {
@@ -110,5 +126,3 @@ describe('Node Redis Pubsub', function () {
   });
 
 });
-
-
