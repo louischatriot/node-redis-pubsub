@@ -80,11 +80,11 @@ nrp.emit('city:yeah'  , { city: 'San Francisco' }); // Outputs 'San Francisco is
 ### Unsubscribe
 
 ```javascript
-var offSayHello = nrp.on('say hello', function(data){
+var unsubscribe = nrp.on('say hello', function(data){
   // Never called
 });
 
-offSayHello([Callback]);
+unsubscribe([Callback]);
 ```
 
 ### Shut down connections
