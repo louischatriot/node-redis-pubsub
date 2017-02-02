@@ -98,7 +98,7 @@ describe('Node Redis Pubsub', function () {
   });
 
   
-  it('Should gracefully handle invalid JSON messge data', function (done) {
+  it('Should gracefully handle invalid JSON message data', function (done) {
     var rq = new NodeRedisPubsub(conf);
 
     rq.on('error', function (err) {
