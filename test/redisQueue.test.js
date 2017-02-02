@@ -78,7 +78,7 @@ describe('Node Redis Pubsub', function () {
       });
   });
 
-  it('Should have the avility to unsubscribe', function (done) {
+  it('Should have the ability to unsubscribe', function (done) {
     var rq     = new NodeRedisPubsub();
     var called = false;
 
@@ -96,6 +96,27 @@ describe('Node Redis Pubsub', function () {
     }, 10);
 
   });
+
+  
+  it('Should gracefully handle invalid JSON message data', function (done) {
+    var rq = new NodeRedisPubsub(conf);
+
+    rq.on('error', function (err) {
+      err.should.include('Invalid JSON received!');
+      done();
+    });
+    rq.on('a test', function (data, channel){
+      channel.should.equal("onescope:a test");
+      data.should.equal({});
+      var invalidJSON = 'hello';
+      rq.emitter.publish(channel, invalidJSON);
+    }
+    , function () {
+        var validJSON = {};
+        rq.emit('a test', validJSON);
+      });
+  });  
+
 
   describe("When shutting down connections", function () {
     var sandbox, rq;
