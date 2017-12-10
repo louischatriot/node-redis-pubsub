@@ -1,40 +1,29 @@
 {
+  "name": "node-redis-pubsub",
+  "version": "1.0.4",
 
-  "name"    : "node-redis-pubsub" ,
-  "version" : "1.0.3"             ,
-
-  "author" : {
-    "name"  : "Louis Chatriot"          ,
-    "email" : "louis.chatriot@gmail.com"
+  "author": {
+    "name": "Louis Chatriot",
+    "email": "louis.chatriot@gmail.com"
   },
 
-  "contributors" : [
-    "Louis Chatriot"      ,
-    "omarmohamed"         ,
-    "Martin Saint-Macary" ,
-    "Narciso Guillen"
-  ],
+  "contributors": ["Louis Chatriot", "omarmohamed", "Martin Saint-Macary", "Narciso Guillen", "notVitaliy"],
 
-  "description" : "Redis PubSub client for Node",
+  "description": "Redis PubSub client for Node",
 
-  "keywords" : [
-    "redis"  ,
-    "pubsub" ,
-    "node"   ,
-    "simple"
-  ],
+  "keywords": ["redis", "pubsub", "node", "simple"],
 
-  "homepage" : "https://github.com/louischatriot/node-redis-pubsub",
+  "homepage": "https://github.com/louischatriot/node-redis-pubsub",
 
-  "dependencies" : {
-    "redis" : "^2.7.1"
+  "dependencies": {
+    "redis": "^2.8.0"
   },
 
-  "devDependencies" : {
-    "chai"      : "^3.5.0",
-    "mocha"     : "*",
-    "should"    : "*",
-    "sinon"     : "^1.14.1",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "*",
+    "should": "*",
+    "sinon": "^1.14.1",
     "sinon-chai": "^2.7.0"
   },
 
@@ -44,14 +33,14 @@
   },
 
   "engines": {
-    "node": "*"
+    "node": ">=6"
   },
 
-  "main" : "index",
+  "main": "index",
 
-  "scripts" : {
-    "test" : "make test"
+  "scripts": {
+    "test": "make test"
   },
 
-  "licence" : "mit"
+  "licence": "mit"
 }
