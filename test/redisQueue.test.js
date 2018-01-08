@@ -1,6 +1,7 @@
 var chai = require('chai')
   , conf = { port: 6379, scope: 'onescope' }
   , conf2 = { port: 6379, scope: 'anotherscope' }
+  , conf3 = { url: 'redis://127.0.0.1:6379/', scope: 'yetanotherscope' }
   , NodeRedisPubsub = require('../index')
   , sinon = require("sinon")
   , sinonChai = require("sinon-chai")
@@ -18,6 +19,21 @@ describe('Node Redis Pubsub', function () {
       data.first.should.equal('First message');
       data.second.should.equal('Second message');
       channel.should.equal("onescope:a test");
+      done();
+    }
+    , function () {
+        rq.emit('a test', { first: 'First message'
+                            , second: 'Second message' });
+      });
+  });
+
+  it('Should send and receive standard messages correctly via url configuration', function (done) {
+    var rq = new NodeRedisPubsub(conf3);
+
+    rq.on('a test', function (data, channel) {
+      data.first.should.equal('First message');
+      data.second.should.equal('Second message');
+      channel.should.equal("yetanotherscope:a test");
       done();
     }
     , function () {
@@ -62,7 +78,7 @@ describe('Node Redis Pubsub', function () {
       });
   });
 
-  it('Should have the avility to unsubscribe', function (done) {
+  it('Should have the ability to unsubscribe', function (done) {
     var rq     = new NodeRedisPubsub();
     var called = false;
 
@@ -80,6 +96,27 @@ describe('Node Redis Pubsub', function () {
     }, 10);
 
   });
+
+  
+  it('Should gracefully handle invalid JSON message data', function (done) {
+    var rq = new NodeRedisPubsub(conf);
+
+    rq.on('error', function (err) {
+      err.should.include('Invalid JSON received!');
+      done();
+    });
+    rq.on('a test', function (data, channel){
+      channel.should.equal("onescope:a test");
+      data.should.equal({});
+      var invalidJSON = 'hello';
+      rq.emitter.publish(channel, invalidJSON);
+    }
+    , function () {
+        var validJSON = {};
+        rq.emit('a test', validJSON);
+      });
+  });  
+
 
   describe("When shutting down connections", function () {
     var sandbox, rq;
@@ -110,5 +147,3 @@ describe('Node Redis Pubsub', function () {
   });
 
 });
-
-

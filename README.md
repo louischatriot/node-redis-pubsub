@@ -45,6 +45,19 @@ var config = {
 var nrp = new NRP(config); // This is the NRP client
 ```
 
+heroku and other services provide you with an environment variable REDIS_URL
+
+```javascript
+var NRP = require('node-redis-pubsub');
+var url = process.env.REDIS_URL;
+
+var config = {
+    url: url
+};
+
+var nrp = new NRP(config); // This is the NRP client
+```
+
 ### Simple pubsub
 
 ```javascript
@@ -64,14 +77,14 @@ nrp.emit('city:hello' , { city: 'Paris' });         // Outputs 'Paris is great'
 nrp.emit('city:yeah'  , { city: 'San Francisco' }); // Outputs 'San Francisco is great'
 ```
 
-### Unsubscrbe
+### Unsubscribe
 
 ```javascript
-nrp.on('say hello', function(data){
+var unsubscribe = nrp.on('say hello', function(data){
   // Never called
 });
 
-nrp.off('say hello', [Callback]);
+unsubscribe([Callback]);
 ```
 
 ### Shut down connections
@@ -82,6 +95,14 @@ nrp.quit();
 
 // Dangerously (connections will be immediately terminated)
 nrp.end();
+```
+
+### Listen for errors
+
+```javascript
+nrp.on("error", function(){
+  // Handle errors here
+});
 ```
 
 ## License
