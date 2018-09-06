@@ -9,7 +9,7 @@ declare module "node-redis-pubsub" {
     }
 
     export class NodeRedisPubsub<T> {
-        constructor(options: RedisPubsubOptions);
+        constructor(options?: RedisPubsubOptions);
         public getRedisClient(): RedisClient;
         public on(channel: string,
             handler: (message: T, channel: string) => void,
@@ -23,4 +23,3 @@ declare module "node-redis-pubsub" {
         public end(): void;
     }
 }
-
