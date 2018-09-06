@@ -6,9 +6,10 @@ declare module "node-redis-pubsub" {
         scope?: string,
         emitter?: RedisClient,
         receiver?: RedisClient,
+        auth?: string,
     }
 
-    export class NodeRedisPubsub<T> {
+    export default class NRP<T> {
         constructor(options?: RedisPubsubOptions);
         public getRedisClient(): RedisClient;
         public on(channel: string,
