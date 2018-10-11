@@ -93,6 +93,16 @@ nrp.emit('city:hello' , { city: 'Paris' });         // Outputs 'Paris is great'
 nrp.emit('city:yeah'  , { city: 'San Francisco' }); // Outputs 'San Francisco is great'
 ```
 
+### Do something after subscribe finishes
+
+```javascript
+nrp.on('mydata:sync', function(myData) {
+  console.log(myData);
+}, function() {
+  nrp.emit('mydata:requestsync'); // request a sync of the data after the handler is registered, so there are no race conditions
+});
+```
+
 ### Unsubscribe
 
 ```javascript
