@@ -106,8 +106,15 @@ nrp.on('mydata:sync', function(myData) {
 ### off /  unsubscribe
 
 ```javascript
-nrp.off('channel', handler, function(){
+function handlerA(){}
+function handlerB(){}
+
+nrp.on('channel', handlerA);
+nrp.on('channel', handlerB);
+
+nrp.off('channel', handlerB, function(){
   // handler is unsubscribe;
+  nrp.emit('channel', { message }); // Only handlerA gets triggered
 });
 ```
 
