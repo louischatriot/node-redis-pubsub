@@ -137,7 +137,20 @@ describe('Node Redis Pubsub', function () {
     after(function(){
       rq.end();
     });
-  });  
+  });
+  
+  it('Should be able to handle non JSON message data', function(done) {
+    var rq = new NodeRedisPubsub(conf);
+
+    rq.on('non-json-msg', function(data, channel){
+      channel.should.equal('onescope:non-json-msg');
+      data.should.equal('non-json-txt');
+      done();
+    },
+    function() {
+      rq.emit('non-json-msg', 'non-json-txt');
+    });
+  });
 
 
   describe("When shutting down connections", function () {
