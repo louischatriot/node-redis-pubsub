@@ -44,7 +44,7 @@ describe('Node Redis Pubsub', function () {
         rq.emit('a test', { first: 'First message'
                             , second: 'Second message' });
       });
-    
+
     after(function(){
       rq.end();
     });
@@ -95,27 +95,32 @@ describe('Node Redis Pubsub', function () {
     });
   });
 
-  // should re-write this test
-  // it('Should have the ability to unsubscribe', function (done) {
-  //   var rq     = new NodeRedisPubsub();
-  //   var called = false;
+  it('Should have the ability to unsubscribe', function (done) {
+    var rq      = new NodeRedisPubsub();
+    var channel = 'test channel';
+    var called  = { A : false, B : false };
 
-  //   rq.should.have.property('off');
-  //   rq.on('a test', function (data){
-  //     called = true;
-  //   }, function(){
-  //     rq.off('a test');
-  //     rq.emit('a test', { });
-  //   });
+    rq.should.have.property('off');
+    rq.should.have.property('unsubscribe');
 
-  //   setTimeout(function(){
-  //     called.should.be.false;
-  //     done();
-  //   }, 10);
+    var handlerA = function(msg){ called.A = true; };
+    var handlerB = function(msg){ called.B = true; };
 
-  // });
+    rq.on(channel, handlerA, function(){      // Subscribe Handler A
+      rq.on(channel, handlerB, function(){    // Subscribe Handler B
+        rq.off(channel, handlerA, function(){ // Unsubscribe Handler A
+          rq.emit(channel, {});               // Emit a message
+          setTimeout(function(){
+            called.A.should.be.false; // Handler A was NOT called
+            called.B.should.be.true;  // Handler B was called
+            done();
+          }, 0);
+        });
+      });
+    });
 
-  
+  });
+
   it('Should gracefully handle invalid JSON message data', function (done) {
     var rq = new NodeRedisPubsub(conf);
 
@@ -138,7 +143,7 @@ describe('Node Redis Pubsub', function () {
       rq.end();
     });
   });
-  
+
   it('Should be able to handle non JSON message data', function(done) {
     var rq = new NodeRedisPubsub(conf);
 
@@ -182,6 +187,6 @@ describe('Node Redis Pubsub', function () {
 
   });
 
-  
+
 
 });

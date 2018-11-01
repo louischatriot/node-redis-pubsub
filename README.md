@@ -103,6 +103,14 @@ nrp.on('mydata:sync', function(myData) {
 });
 ```
 
+### off /  unsubscribe
+
+```javascript
+nrp.off('channel', handler, function(){
+  // handler is unsubscribe;
+});
+```
+
 ### Unsubscribe
 
 ```javascript
