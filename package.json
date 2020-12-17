@@ -20,7 +20,7 @@
   ],
   "homepage": "https://github.com/louischatriot/node-redis-pubsub",
   "dependencies": {
-    "redis": "^2.7.1"
+    "redis": "^3.0.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
